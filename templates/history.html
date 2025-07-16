@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Geçmiş Taramalar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+      padding: 40px;
+    }
+    .navbar {
+      background: #1e3a8a;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar-left {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .navbar-right a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .navbar-right a:hover {
+      text-decoration: underline;
+    }
+    h2 {
+      text-align: center;
+      color: #1e3a8a;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #1e3a8a;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    a {
+      text-decoration: none;
+      color: #1e3a8a;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+    <div class="navbar">
+    <div class="navbar-left">QuickPortCheck</div>
+    <div class="navbar-right">
+      <a href="/">Anasayfa</a>
+      <a href="/history">Geçmiş</a>
+      <a href="/scan">Port Kontrolü</a>
+    </div>
+  </div>
+
+  <h2>Geçmiş Taramalar</h2>
+  <label for="dateRange">Tarih Aralığı Seç:</label>
+  <select id="dateRange" onchange="filterByDropdown()">
+    <option value="">-- Seçiniz --</option>
+    <option value="today">Bugün</option>
+    <option value="yesterday">Dün</option>
+    <option value="last7days">Son 7 Gün</option>
+    <option value="last30days">Son 30 Gün</option>
+  </select>
+
+  <table>
+    <thead>
+      <tr>
+        <th>IP Adresi</th>
+        <th>Port</th>
+        <th>Durum</th>
+        <th>Tarama Türü</th>
+        <th>Tarih</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in history %}
+        <tr>
+          <td>{{ item.ip }}</td>
+          <td>{{ item.port }}</td>
+          <td>{{ item.status }}</td>
+          <td>
+            {% if item.scan_type == 'single' %}
+                Tekil
+            {% elif item.scan_type == 'multi' %}
+                Çoklu
+            {% else %}
+                Bilinmiyor
+            {% endif %}
+            </td>
+          <td>{{ item.timestamp }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div style="text-align: center; margin-top: 20px;">
+    <a href="/">⬅ Anasayfa</a>
+  </div>
+</body>
+</html>
