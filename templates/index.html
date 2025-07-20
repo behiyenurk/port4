@@ -4,393 +4,139 @@
   <meta charset="UTF-8" />
   <title>Port Tarama Aracı</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f4f7;
-      position: relative;
-    }
-    .navbar {
-      background: #1e3a8a;
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .navbar-left {
-      font-weight: bold;
-      font-size: 20px;
-    }
-    .navbar-right a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .navbar-right a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
-      flex: 1;
-      min-width: 300px;
-      position: relative; 
-    }
-    h2 {
-      margin-top: 0;
-      color: #1e3a8a;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 6px;
-    }
-    input[type="text"],
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
-    button {
-      background: #2563eb;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #1d4ed8;
-    }
-    #loader {
-      display: none;
-      text-align: center;
-      margin-top: 20px;
-    }
-    h3 {
-      max-width: 1000px;
-      margin: 50px auto 10px;
-      color: #1e3a8a;
-      text-align: center;
-    }
-    table {
-      max-width: 1000px;
-      margin: 0 auto 50px;
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: center;
-    }
-    th {
-      background-color: #1e3a8a;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    #result {
-      display: none;
-      margin: 40px auto;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 700px;
-      font-weight: bold;
-      background-color: #f0fdf4;
-      border: 2px solid #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
-      color: #166534;
-      white-space: pre-wrap;
-    }
-
-    #result.visible {
-      display: block;
-    }
-
-    #singlePortDropdownBtn {
-      padding: 10px 12px;
-      cursor: pointer;
-      background: #2563eb;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-weight: bold;
-      user-select: none;
-      transform: translateY(-8px);
-    }
-
-    #singlePortDropdownBtn:hover {
-      background: #1d4ed8;
-    }
-
-    #singlePortDropdown {
-      display: none;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      border: 1px solid #ccc;
-      max-width: 180px;
-      background: white;
-      position: absolute;
-      z-index: 1000;
-      top: 140px;
-      left: 150px;
-      border-radius: 6px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      max-height: 180px;
-      overflow-y: auto;
-    }
-    #singlePortDropdown li {
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-    #singlePortDropdown li:hover,
-    #singlePortDropdown li:focus {
-      background-color: #1e3a8a;
-      color: white;
-      outline: none;
-    }
-
-    .range-btn {
-      cursor: pointer;
-      padding: 6px 12px;
-      margin-right: 8px;
-      background: #1e3a8a;
-      color: #fff;
-      border-radius: 6px;
-      user-select: none;
-      display: inline-block;
-      margin-top: 8px;
-    }
-    .range-btn:hover {
-      background: #2563eb;
-    }
-
-    .info-section {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .info-section h2 {
-      color: #1e3a8a;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #1e3a8a;
-      padding-bottom: 8px;
-    }
-    .info-card {
-      background: #fff;
-      border-left: 6px solid #1e3a8a;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.05);
-    }
-    .info-card h3 {
-      margin-top: 0;
-      color: #1e3a8a;
-    }
-    .info-card ul {
-      padding-left: 20px;
-      margin: 0;
-    }
-    .info-card ul li {
-      margin-bottom: 6px;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <div class="navbar">
+  <div class="floating-circle circle-1"></div>
+  <div class="floating-circle circle-2"></div>
+  
+  <div class="floating-bubbles">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+    <div class="bubble bubble-4"></div>
+    <div class="bubble bubble-5"></div>
+    <div class="bubble bubble-6"></div>
+  </div>
+
+  <nav class="navbar">
     <div class="navbar-left">QuickPortCheck</div>
     <div class="navbar-right">
-      <a href="/">Anasayfa</a>
+      <a href="/" class="active">Anasayfa</a>
       <a href="/history">Geçmiş</a>
       <a href="/scan">Port Kontrolü</a>
     </div>
-  </div>
+  </nav>
 
-  <div class="container">
-    <!-- Tekil Tarama -->
-    <div class="card">
-      <h2>Tekil Port Tarama</h2>
-      <form id="singleScanForm" style="position: relative;">
+  <main class="container">
+    <section class="card">
+      <h2>Tekli Port Tarama</h2>
+      <form id="singleScanForm" class="scan-form">
         <label for="singleIp">IP Adresi:</label>
-        <input
-          type="text"
-          id="singleIp"
-          name="ip"
-          placeholder="192.168.1.1"
-          pattern="^(\d{1,3}\.){3}\d{1,3}$"
-          required
-        />
+        <input type="text" id="singleIp" name="ip" placeholder="192.168.1.1" pattern="^(\d{1,3}\.){3}\d{1,3}$" required>
         <label for="singlePort">Port:</label>
-        <div style="position: relative; display: flex; align-items: center; gap: 6px;">
-          <input
-            type="number"
-            id="singlePort"
-            name="port"
-            min="0"
-            max="65535"
-            placeholder="Port numarası"
-            required
-            style="flex: 1;"
-          />
-          <button
-            type="button"
-            id="singlePortDropdownBtn"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-          >
-            ▼
-          </button>
+        <div class="port-input-container">
+          <input type="number" id="singlePort" name="port" min="0" max="65535" placeholder="Port numarası" required>
+          <button type="button" id="singlePortDropdownBtn" aria-haspopup="listbox" aria-expanded="false">▼</button>
+          <ul id="singlePortDropdown" role="listbox" tabindex="-1">
+            <li tabindex="0" data-port="20">FTP (20)</li>
+            <li tabindex="0" data-port="21">FTP (21)</li>
+            <li tabindex="0" data-port="22">SSH (22)</li>
+            <li tabindex="0" data-port="23">Telnet (23)</li>
+            <li tabindex="0" data-port="25">SMTP (25)</li>
+            <li tabindex="0" data-port="53">DNS (53)</li>
+            <li tabindex="0" data-port="80">HTTP (80)</li>
+            <li tabindex="0" data-port="110">POP3 (110)</li>
+            <li tabindex="0" data-port="115">SFTP (115)</li>
+            <li tabindex="0" data-port="123">NTP (123)</li>
+            <li tabindex="0" data-port="143">IMAP (143)</li>
+            <li tabindex="0" data-port="161">SNMP (161)</li>
+            <li tabindex="0" data-port="194">IRC (194)</li>
+            <li tabindex="0" data-port="443">HTTPS (443)</li>
+            <li tabindex="0" data-port="445">SMB (445)</li>
+            <li tabindex="0" data-port="465">SMTPS (465)</li>
+            <li tabindex="0" data-port="554">RTSP (554)</li>
+            <li tabindex="0" data-port="873">RSYNC (873)</li>
+            <li tabindex="0" data-port="993">IMAPS (993)</li>
+            <li tabindex="0" data-port="995">POP3S (995)</li>
+            <li tabindex="0" data-port="3306">MySQL (3306)</li>
+            <li tabindex="0" data-port="3389">RDP (3389)</li>
+            <li tabindex="0" data-port="5432">PostgreSQL (5432)</li>
+            <li tabindex="0" data-port="5631">PC Anywhere (5631)</li>
+            <li tabindex="0" data-port="5900">VNC (5900)</li>
+            <li tabindex="0" data-port="6379">Redis (6379)</li>
+            <li tabindex="0" data-port="8080">HTTP-Alt (8080)</li>
+            <li tabindex="0" data-port="8333">Bitcoin (8333)</li>
+            <li tabindex="0" data-port="11211">Memcached (11211)</li>
+            <li tabindex="0" data-port="25565">Minecraft (25565)</li>
+          </ul>
         </div>
-        <ul
-          id="singlePortDropdown"
-          role="listbox"
-          tabindex="-1"
-        >
-          <li tabindex="0" data-port="20">FTP (20)</li>  
-          <li tabindex="0" data-port="21">FTP (21)</li>
-          <li tabindex="0" data-port="22">SSH (22)</li>
-          <li tabindex="0" data-port="23">Telnet (23)</li>
-          <li tabindex="0" data-port="25">SMTP (25)</li>
-          <li tabindex="0" data-port="53">DNS (53)</li>
-          <li tabindex="0" data-port="80">HTTP (80)</li>
-          <li tabindex="0" data-port="110">POP3 (110)</li>
-          <li tabindex="0" data-port="115">SFTP (115)</li>
-          <li tabindex="0" data-port="123">NTP (123)</li>
-          <li tabindex="0" data-port="143">IMAP (143)</li>
-          <li tabindex="0" data-port="161">SNMP (161)</li>
-          <li tabindex="0" data-port="194">IRC (194)</li>
-          <li tabindex="0" data-port="443">HTTPS (443)</li>
-          <li tabindex="0" data-port="445">SMB (445)</li>
-          <li tabindex="0" data-port="465">SMTPS (465)</li>
-          <li tabindex="0" data-port="554">RTSP (554)</li>
-          <li tabindex="0" data-port="873">RSYNC (873)</li>
-          <li tabindex="0" data-port="993">IMAPS (993)</li>
-          <li tabindex="0" data-port="995">POP3S (995)</li>
-          <li tabindex="0" data-port="3306">MySQL (3306)</li>
-          <li tabindex="0" data-port="3389">RDP (3389)</li>
-          <li tabindex="0" data-port="5432">PostgreSQL (5432)</li>
-          <li tabindex="0" data-port="5631">PC Anywhere (5631)</li>
-          <li tabindex="0" data-port="5900">VNC (5900)</li>
-          <li tabindex="0" data-port="6379">Redis (6379)</li>
-          <li tabindex="0" data-port="8080">HTTP-Alt (8080)</li>
-          <li tabindex="0" data-port="8333">Bitcoin (8333)</li>
-          <li tabindex="0" data-port="11211">Memcached (11211)</li>
-          <li tabindex="0" data-port="25565">Minecraft (25565)</li>
-          <ul class="dropdown-content"></ul>
-        </ul>
-        <button type="submit">Tara</button>
+        <button type="submit" class="scan-button">Tara</button>
       </form>
-    </div>
+    </section>
 
-    <!-- Çoklu Tarama -->
-    <div class="card">
+    <section class="card">
       <h2>Çoklu Port Tarama</h2>
-      <form id="multiScanForm">
+      <form id="multiScanForm" class="scan-form">
         <label for="multiIp">IP Adresi:</label>
-        <input
-          type="text"
-          id="multiIp"
-          name="ip"
-          placeholder="192.168.1.1"
-          pattern="^(\d{1,3}\.){3}\d{1,3}$"
-          required
-        />
+        <input type="text" id="multiIp" name="ip" placeholder="192.168.1.1" pattern="^(\d{1,3}\.){3}\d{1,3}$" required>
         <label for="startPort">Başlangıç Portu:</label>
-        <input
-          type="number"
-          id="startPort"
-          name="start"
-          min="0"
-          max="65535"
-          placeholder="20"
-          required
-        />
+        <input type="number" id="startPort" name="start" min="0" max="65535" placeholder="20" required>
         <label for="endPort">Bitiş Portu:</label>
-        <input
-          type="number"
-          id="endPort"
-          name="end"
-          min="0"
-          max="65535"
-          placeholder="25"
-          required
-        />
-        <button type="submit">Tara</button>
+        <input type="number" id="endPort" name="end" min="0" max="65535" placeholder="25" required>
+        <button type="submit" class="scan-button">Tara</button>
       </form>
+    </section>
+  </main>
+
+  <div id="loader" class="loader">
+    <p>Tarama yapılıyor, lütfen bekleyin...</p>
+    <img src="https://i.gifer.com/ZZ5H.gif" width="60" height="60" alt="Yükleniyor" loading="lazy">
+  </div>
+
+  <div id="result" class="result"></div>
+
+  <section class="history-section">
+    <h3 class="scan-history-title">Son 10 Tarama Geçmişi</h3>
+    <div class="table-container">
+      <table id="historyTable">
+        <thead>
+          <tr>
+            <th>IP</th>
+            <th>Port</th>
+            <th>Durum</th>
+            <th>Tarama Türü</th>
+            <th>Tarih</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody">
+          <tr>
+            <td colspan="5" class="loading-text">Yükleniyor...</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </div>
+  </section>
 
-  <div id="loader">
-    <p>Tarama yapılıyor...</p>
-    <img src="https://i.gifer.com/ZZ5H.gif" width="60" alt="Yükleniyor" />
-  </div>
-
-  <div id="result"></div>
-
-  <h3>Son 10 Tarama Geçmişi</h3>
-  <table id="historyTable">
-    <thead>
-      <tr>
-        <th>IP</th>
-        <th>Port</th>
-        <th>Durum</th>
-        <th>Tarama Türü</th>
-        <th>Tarih</th>
-      </tr>
-    </thead>
-    <tbody id="historyBody">
-      <tr>
-        <td colspan="5" style="text-align:center; padding:10px;">Yükleniyor...</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Bilgi Bölümü -->
-  <div class="info-section">
+  <section class="info-section">
     <h2>Port Tarama Hakkında Temel Bilgiler</h2>
-
-    <div class="info-card">
-      <h3>Port Nedir?</h3>
-      <p>Bilgisayarlar internete veya ağlara bağlandığında, farklı uygulamalar ve servisler veri alışverişi yapar. "Port" dediğimiz şey, bu iletişimin hangi kapıdan yapılacağını belirten sayısal bir adres gibidir. Örneğin, web siteleri genellikle 80 veya 443 numaralı portları kullanır.</p>
-    </div>
-
-    <div class="info-card">
-      <h3>Port Tarama Nedir?</h3>
-      <p>Port tarama, bir bilgisayar veya sunucunun hangi portlarının açık olduğunu anlamak için yapılan bir testtir. Böylece hangi servislerin dışarıdan erişilebilir olduğu öğrenilir ve güvenlik riskleri değerlendirilir.</p>
-    </div>
-    
-    <div class="info-card">
-      <h3>Portlar Neden Açık veya Kapalı Olur?</h3>
-      <p>Bir port "açık" ise, o port üzerinden bilgisayar dışarıdan gelen bağlantıları kabul ediyor demektir. "Kapalı" port ise dışarıdan gelen bağlantılara cevap vermez. Güvenlik açısından, gereksiz portların kapalı olması önemlidir çünkü açık portlar kötü niyetli kişilerin hedefi olabilir.</p>
-    </div>
-
-    <div class="info-card">
-      <h3>En Yaygın Portlar</h3>
-        <ul>
-          <li><strong>20 & 21 (FTP):</strong> Dosya transferi için kullanılır.</li>
+    <div class="info-grid">
+      <article class="info-card">
+        <h3>Port Nedir?</h3>
+        <p>Bilgisayarlar internete veya ağlara bağlandığında, farklı uygulamalar ve servisler veri alışverişi yapar. "Port" dediğimiz şey, bu iletişimin hangi kapıdan yapılacağını belirten sayısal bir adres gibidir. Örneğin, web siteleri genellikle 80 veya 443 numaralı portları kullanır.</p>
+      </article>
+      <article class="info-card">
+        <h3>Port Tarama Nedir?</h3>
+        <p>Port tarama, bir bilgisayar veya sunucunun hangi portlarının açık olduğunu anlamak için yapılan bir testtir. Böylece hangi servislerin dışarıdan erişilebilir olduğu öğrenilir ve güvenlik riskleri değerlendirilir.</p>
+      </article>
+      <article class="info-card">
+        <h3>Portlar Neden Açık veya Kapalı Olur?</h3>
+        <p>Bir port "açık" ise, o port üzerinden bilgisayar dışarıdan gelen bağlantıları kabul ediyor demektir. "Kapalı" port ise dışarıdan gelen bağlantılara cevap vermez. Güvenlik açısından, gereksiz portların kapalı olması önemlidir çünkü açık portlar kötü niyetli kişilerin hedefi olabilir.</p>
+      </article>
+      <article class="info-card">
+        <h3>En Yaygın Portlar</h3>
+        <li><strong>20 & 21 (FTP):</strong> Dosya transferi için kullanılır.</li>
           <li><strong>22 (SSH):</strong> Uzaktan güvenli bağlantı sağlar.</li>
           <li><strong>23 (Telnet):</strong> Uzaktan komut satırı oturumu sağlar (güvensizdir).</li>
           <li><strong>25 (SMTP):</strong> E-posta gönderimi için kullanılır.</li>
@@ -419,201 +165,10 @@
           <li><strong>11211 (Memcached):</strong> Önbellekleme için kullanılır.</li>
           <li><strong>25565 (Minecraft):</strong> Minecraft oyun sunucuları için kullanılır.</li>
         </ul>
+      </article>
     </div>
+  </section>
 
-  <script>
-    const singlePortDropdownBtn = document.getElementById('singlePortDropdownBtn');
-    const singlePortDropdown = document.getElementById('singlePortDropdown');
-    const singlePortInput = document.getElementById('singlePort');
-
-    singlePortDropdownBtn.addEventListener('click', () => {
-      const expanded = singlePortDropdown.style.display === 'block';
-      singlePortDropdown.style.display = expanded ? 'none' : 'block';
-      singlePortDropdownBtn.setAttribute('aria-expanded', !expanded);
-    });
-
-    document.addEventListener('click', (e) => {
-      if (
-        !singlePortDropdown.contains(e.target) &&
-        e.target !== singlePortDropdownBtn
-      ) {
-        singlePortDropdown.style.display = 'none';
-        singlePortDropdownBtn.setAttribute('aria-expanded', false);
-      }
-    });
-
-    singlePortDropdown.querySelectorAll('li').forEach((li) => {
-      li.addEventListener('click', () => {
-        const port = li.getAttribute('data-port');
-        singlePortInput.value = port;
-        singlePortDropdown.style.display = 'none';
-        singlePortDropdownBtn.setAttribute('aria-expanded', false);
-      });
-      li.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          li.click();
-        }
-      });
-    });
-
-    document.querySelectorAll('.range-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const start = btn.getAttribute('data-start');
-        const end = btn.getAttribute('data-end');
-        document.getElementById('startPort').value = start;
-        document.getElementById('endPort').value = end;
-      });
-    });
-
-    document
-      .getElementById('singleScanForm')
-      .addEventListener('submit', function (e) {
-        e.preventDefault();
-        const ip = document.getElementById('singleIp').value;
-        const port = document.getElementById('singlePort').value;
-
-        if (!ip || !port) return alert('Lütfen IP adresi ve portu girin.');
-
-        document.getElementById('loader').style.display = 'block';
-
-        fetch(`/api/singlescan?ip=${ip}&port=${port}`)
-          .then((res) => res.json())
-          .then((data) => {
-            document.getElementById('loader').style.display = 'none';
-            if (data.error) return alert(data.error);
-
-            const resultText = `PORT ${data.port} --> ${data.status}.`;
-            updateResult(resultText, ip, data.port, data.status, 'single');
-          })
-          .catch((err) => {
-            document.getElementById('loader').style.display = 'none';
-            alert('Hata oluştu: ' + err.message);
-          });
-      });
-
-
-    document
-      .getElementById('multiScanForm')
-      .addEventListener('submit', function (e) {
-        e.preventDefault();
-        const ip = document.getElementById('multiIp').value;
-        const start = document.getElementById('startPort').value;
-        const end = document.getElementById('endPort').value;
-
-        if (!ip || !start || !end) return alert('Tüm alanları doldurun.');
-
-        document.getElementById('loader').style.display = 'block';
-
-        fetch(`/api/multiscan?ip=${ip}&start=${start}&end=${end}`)
-          .then((res) => res.json())
-          .then((data) => {
-            document.getElementById('loader').style.display = 'none';
-            if (data.error) return alert(data.error);
-
-            let htmlResult = '';
-            data.forEach((item) => {
-              htmlResult += `PORT ${item.port} --> ${item.status}.<br>`;
-              addHistoryEntry({
-                ip: ip,
-                port: item.port,
-                status: item.status,
-                timestamp: getCurrentTimestamp(),
-                scan_type: 'multi',
-              });
-            });
-
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = htmlResult;
-            resultDiv.classList.add('visible');
-          })
-          .catch((err) => {
-            document.getElementById('loader').style.display = 'none';
-            alert('Hata oluştu: ' + err.message);
-          });
-      });
-
-    function updateResult(data, ip = null, port = null, statusText = null, scanType = null) {
-      const lines = data.split('<br>');
-      const html = lines
-        .map((line) => {
-          if (line.includes('Açık'))
-            return `<span style="color:green;font-weight:bold;">${line}</span>`;
-          else if (line.includes('Kapalı'))
-            return `<span style="color:black;">${line}</span>`;
-          return line;
-        })
-        .join('<br>');
-
-      const resultDiv = document.getElementById('result');
-      resultDiv.innerHTML = html;
-      resultDiv.classList.add('visible');
-
-      if (ip && port && statusText && scanType) {
-        addHistoryEntry({
-          ip: ip,
-          port: port,
-          status: statusText,
-          timestamp: getCurrentTimestamp(),
-          scan_type: scanType,
-        });
-      }
-    }
-
-    function addHistoryEntry(item) {
-      const tbody = document.getElementById('historyBody');
-      const tr = document.createElement('tr');
-      const scanTypeReadable =
-        item.scan_type === 'single'
-          ? 'Tekil'
-          : item.scan_type === 'multi'
-          ? 'Çoklu'
-          : 'Bilinmiyor';
-
-      tr.innerHTML = `
-        <td>${item.ip}</td>
-        <td>${item.port}</td>
-        <td>${item.status}</td>
-        <td>${scanTypeReadable}</td>
-        <td>${item.timestamp}</td>
-      `;
-      if (
-        tbody.children.length === 0 ||
-        tbody.children[0].textContent.includes('Yükleniyor') ||
-        tbody.children[0].textContent.includes('Geçmiş bulunamadı')
-      ) {
-        tbody.innerHTML = '';
-      }
-      tbody.insertBefore(tr, tbody.firstChild);
-      while (tbody.children.length > 10) tbody.removeChild(tbody.lastChild);
-    }
-
-    function getCurrentTimestamp() {
-      const d = new Date();
-      const pad = (n) => n.toString().padStart(2, '0');
-      return `${pad(d.getDate())}-${pad(d.getMonth() + 1)}-${d.getFullYear()} ${pad(
-        d.getHours()
-      )}.${pad(d.getMinutes())}`;
-    }
-
-    function loadHistory() {
-      fetch('/api/history')
-        .then((res) => res.json())
-        .then((data) => {
-          const tbody = document.getElementById('historyBody');
-          tbody.innerHTML = '';
-          if (!data.length) {
-            tbody.innerHTML =
-              '<tr><td colspan="5" style="text-align:center;">Geçmiş bulunamadı.</td></tr>';
-            return;
-          }
-
-          data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-          data.forEach(addHistoryEntry);
-        });
-    }
-
-    window.addEventListener('load', loadHistory);
-  </script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
